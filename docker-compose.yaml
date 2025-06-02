@@ -53,9 +53,13 @@ services:
       retries: 5
 
   crypto:
+    container_name: "crypto"
     build:
       context: ./crypto
       dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./volumes/crypto:/app/data
     environment:
-      - MPI_ENV=1
-    command: ["mpirun", "-np", "4", "./app/src/main"]
+      - OMP_NUM_THREADS=4
+
