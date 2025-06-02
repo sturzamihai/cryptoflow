@@ -1,0 +1,6 @@
+spring.application.name: cryptoflow
+
+spring.rabbitmq.host: ${RABBITMQ_HOST:localhost}
+spring.rabbitmq.port: ${RABBITMQ_PORT:5672}
+spring.rabbitmq.username: ${RABBITMQ_USER:guest}
+spring.rabbitmq.password: ${RABBITMQ_PASSWORD:guest}

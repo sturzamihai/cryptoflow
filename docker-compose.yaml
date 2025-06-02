@@ -1,11 +1,61 @@
 services:
+  frontend:
+    container_name: "frontend"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    container_name: "backend"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    env_file: .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+
+  consumer:
+    container_name: "consumer"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    env_file: .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=consumer
+    depends_on:
+      - rabbitmq
+
   rabbitmq:
     container_name: "rabbitmq"
     image: "rabbitmq:3-management"
     restart: always
     environment:
-      - "RABBITMQ_DEFAULT_USER=guest"
-      - "RABBITMQ_DEFAULT_PASS=guest"
+      - "RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}"
+      - "RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}"
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  crypto:
+    build:
+      context: ./crypto
+      dockerfile: Dockerfile
+    environment:
+      - MPI_ENV=1
+    command: ["mpirun", "-np", "4", "./app/src/main"]

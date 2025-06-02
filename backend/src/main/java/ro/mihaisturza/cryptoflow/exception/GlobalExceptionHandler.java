@@ -1,4 +1,4 @@
-package ro.mihaisturza.exception;
+package ro.mihaisturza.cryptoflow.exception;
 
 import java.util.stream.Collectors;
 

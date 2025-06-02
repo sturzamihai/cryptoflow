@@ -1,4 +1,4 @@
-package ro.mihaisturza.exception;
+package ro.mihaisturza.cryptoflow.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

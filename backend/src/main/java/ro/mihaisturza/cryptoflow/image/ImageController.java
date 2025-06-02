@@ -3,6 +3,7 @@ package ro.mihaisturza.cryptoflow.image;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/images")
 @CrossOrigin(origins = "*")
+@Profile("backend")
 public class ImageController {
     @Autowired
     private ImageService imageService;

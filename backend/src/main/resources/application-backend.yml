@@ -1,0 +1,4 @@
+spring.config.activate.on-profile: backend
+
+spring.servlet.multipart.max-file-size: 250MB
+spring.servlet.multipart.max-request-size: 300MB

@@ -1,5 +1,4 @@
 import {
-  DatabaseIcon,
   FileIcon,
   KeyRoundIcon,
   LockIcon,
@@ -71,7 +70,7 @@ export default function FileDropzone() {
     const data = await response.json();
 
     if (!response.ok) {
-      setError(`${data.message || "Unknown error"}`);
+      setError(`${data.error || "Unknown error"}`);
       return;
     }
 
