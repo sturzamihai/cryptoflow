@@ -13,8 +13,8 @@ services:
   backend:
     container_name: "backend"
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./backend/Dockerfile
     restart: always
     env_file: .env
     environment:
@@ -27,8 +27,8 @@ services:
   consumer:
     container_name: "consumer"
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./backend/Dockerfile
     restart: always
     env_file: .env
     environment:
@@ -52,14 +52,20 @@ services:
       timeout: 10s
       retries: 5
 
-  crypto:
-    container_name: "crypto"
-    build:
-      context: ./crypto
-      dockerfile: Dockerfile
+  mysql:
+    container_name: "mysql"
+    image: "mysql:8.0"
     restart: always
-    volumes:
-      - ./volumes/crypto:/app/data
     environment:
-      - OMP_NUM_THREADS=4
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 

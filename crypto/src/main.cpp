@@ -17,6 +17,12 @@ void printUsage(const char* programName) {
 }
 
 int main(int argc, char* argv[]) {
+    // Handle help argument before MPI initialization
+    if (argc == 2 && (std::string(argv[1]) == "--help" || std::string(argv[1]) == "-h")) {
+        printUsage(argv[0]);
+        return 0;
+    }
+    
     // Initialize MPI
     MPI_Init(&argc, &argv);
     
