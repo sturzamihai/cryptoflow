@@ -45,6 +45,6 @@ public class ImageService {
     }
 
     public List<ProcessedImage> getProcessedImages() {
-        return processedImageRepository.findAll();
+        return processedImageRepository.findAllByOrderByProcessedAtDesc();
     }
 }
