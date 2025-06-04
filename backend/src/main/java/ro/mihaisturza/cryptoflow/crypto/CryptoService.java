@@ -21,6 +21,7 @@ public class CryptoService {
     
     private static final String CRYPTO_PROCESSOR_PATH = "/app/crypto_processor"; // Path to compiled C++ executable
     private static final String TEMP_DATA_PATH = "/tmp/crypto"; // Temporary directory for processing
+    private static final int PROCESS_TIMEOUT_SECONDS = 60; // Timeout for crypto process execution
     
     public byte[] processImage(byte[] imageData, String key, Operation operation, EncryptionMode mode, String fileName) {
         try {
@@ -28,7 +29,7 @@ public class CryptoService {
             Files.createDirectories(Paths.get(TEMP_DATA_PATH));
             
             // Generate unique file names
-            String timestamp = String.valueOf(System.currentTimeMillis());
+            String timestamp = String.valueOf(System.currentTimeMillis());;
             String inputFileName = timestamp + "_input_" + fileName;
             String outputFileName = timestamp + "_output_" + fileName;
             
@@ -70,7 +71,7 @@ public class CryptoService {
             }
             
             // Wait for completion
-            boolean finished = process.waitFor(30, TimeUnit.SECONDS);
+            boolean finished = process.waitFor(PROCESS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
             if (!finished) {
                 process.destroyForcibly();
                 throw new RuntimeException("Crypto process timed out");

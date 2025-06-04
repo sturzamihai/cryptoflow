@@ -1,5 +1,5 @@
 services:
-  frontend:
+  frontend: # C01
     container_name: "frontend"
     build:
       context: ./frontend
@@ -10,7 +10,7 @@ services:
     depends_on:
       - backend
 
-  backend:
+  backend: # C01
     container_name: "backend"
     build:
       context: .
@@ -23,8 +23,9 @@ services:
       - "8080:8080"
     depends_on:
       - rabbitmq
+      - mysql
 
-  consumer:
+  consumer: # C03/C04 (can be scaled to more instances)
     container_name: "consumer"
     build:
       context: .
@@ -35,8 +36,9 @@ services:
       - SPRING_PROFILES_ACTIVE=consumer
     depends_on:
       - rabbitmq
+      - mysql
 
-  rabbitmq:
+  rabbitmq: # C02
     container_name: "rabbitmq"
     image: "rabbitmq:3-management"
     restart: always
@@ -52,7 +54,7 @@ services:
       timeout: 10s
       retries: 5
 
-  mysql:
+  mysql: # C05
     container_name: "mysql"
     image: "mysql:8.0"
     restart: always

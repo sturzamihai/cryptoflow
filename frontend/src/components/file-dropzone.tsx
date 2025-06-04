@@ -69,6 +69,12 @@ export default function FileDropzone() {
       return;
     }
 
+    if(key.length < 16 || key.length > 32) {
+      setError("Key must be between 16 and 32 characters long");
+      setState("unsubmitted");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("key", key);
